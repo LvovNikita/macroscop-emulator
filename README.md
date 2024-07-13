@@ -1,0 +1,2 @@
+# macroscop-emulator
+Эмулятор Macroscop
