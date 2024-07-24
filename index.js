@@ -1,3 +1,1 @@
-module.exports = {
-  MacroscopServer: require('./libs')
-}
+module.exports = require('./libs')

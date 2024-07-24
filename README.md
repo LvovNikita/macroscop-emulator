@@ -38,10 +38,12 @@ http://localhost:8080/api/faces/d1bd0147-e3d7-4bcd-a19c-e9a1acafaadd?module=comp
 [link](https://macroscop.com/media/5543/download/macroscop-sdk-api-ru.pdf?v=15&inline=1)
 
 * Получение конфигурации системы. Пример запроса данных в формате XML:
-http://127.0.0.1:8080/configex?login=root&password=
+GET http://127.0.0.1:10001/configex?login=root&password=
 * Получение конфигурации системы. Пример запроса данных в формате JSON:
-http://127.0.0.1:8080/configex?login=root&password=&responsetype=json
+GET http://127.0.0.1:10001/configex?login=root&password=&responsetype=json
 * Получение событий в реальном времени
 http://127.0.0.1:8080/event?login=root&password=&responsetype=json
 * Получение кадра
 http://127.0.0.1:8080/site?login=root&password=&channelid=706c4691-3d90-41e3-8789-76eb9810648f
+
+Запрос к /configex для двух различных серверов в одной конфигурации вернёт идентичные ответы за исключением поля SenderId

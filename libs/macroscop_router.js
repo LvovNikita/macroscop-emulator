@@ -17,6 +17,7 @@ function macroscopRouterFactory () {
     .get(requestHandlers.faces.findOne)
     .put(requestHandlers.faces.updateOne)
     .delete(requestHandlers.faces.deleteOne)
+
   /** Роутер конечной точки / */
   const macroscopRootRouter = Router()
   macroscopRootRouter.get('/configex', requestHandlers.root.configex)

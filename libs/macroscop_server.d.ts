@@ -1,9 +1,16 @@
-// TODO: fix
+import { ConfigexOptions } from './configex'
 
-declare type MacroscopServerOptions = {
-  port: number
+/** Параметры сервера Macroscop */
+type MacroscopServerOptions = {
+  /** Основной HTTP порт сервера */
+  PrimaryPort: number,
+  /** Название сервера в рамках действующей конфигурации */
+  Name: string
 }
 
+/** Эмуляция сервера Macroscop */
 declare class MacroscopServer {
-  constructor(options: MacroscopServerOptions) {}
+  constructor(options: MacroscopServerOptions | ConfigexOptions) {}
 }
+
+export = MacroscopServer
