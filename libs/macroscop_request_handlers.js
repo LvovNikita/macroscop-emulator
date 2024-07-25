@@ -23,7 +23,10 @@ const requestHandlers = {
   /** / */
   root: {
     configex(request, response, next) {
-      next()
+      // TODO: auth
+      response.set('Content-Type', 'application/json')
+      const result = JSON.stringify(request.macroscopServer.configex)
+      response.end(result)
     },
     event(request, response, next) {
       next()

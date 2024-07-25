@@ -25,7 +25,5 @@ export type ConfigexOptions = {
 
 /** Конфигурация системы */
 export declare class Configex {
-  constructor(options: ConfigexOptions) {}
+  constructor(options: ConfigexOptions)
 }
-
-export = Configex

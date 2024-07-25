@@ -5,12 +5,14 @@ type MacroscopServerOptions = {
   /** Основной HTTP порт сервера */
   PrimaryPort: number,
   /** Название сервера в рамках действующей конфигурации */
-  Name: string
+  Name: string,
+  /** Параметры конфигурации системы */
+  configex: ConfigexOptions
 }
 
 /** Эмуляция сервера Macroscop */
 declare class MacroscopServer {
-  constructor(options: MacroscopServerOptions | ConfigexOptions) {}
+  constructor(options: MacroscopServerOptions)
 }
 
 export = MacroscopServer
