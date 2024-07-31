@@ -28,6 +28,7 @@ class MacroscopServer {
     const httpServer = express()
     if (!this.options.PrimaryPort) throw new Error('options must contain PrimaryPort')
     if (!this.options.Name) throw new Error('options must contain Name')
+    if (!this.options.Id) throw new Error('options must contain Id')
     if (!this.configex.Id) throw new Error('options must contain Id')
     if (!this.configex.SenderId) throw new Error('options must contain SenderId')
 
@@ -50,7 +51,7 @@ class MacroscopServer {
         XmlProtocolVersion: 2,
         ServerVersion: '4.1.23',
         ProductType: 'Ultra',
-        Servers: [this.serverInfo],
+        Servers: [],
         Channels: [],
         ...(options?.configex ?? {})
       }
@@ -61,7 +62,7 @@ class MacroscopServer {
     this.serverInfo = new ServerInfo({
       Name: options.Name,
       PrimaryPort: options.PrimaryPort,
-      Id: options.configex.SenderId
+      Id: options.Id,
     })
   }
 }

@@ -1,4 +1,5 @@
 import { UUID } from 'crypto'
+import { ChannelInfo } from './channel_info'
 
 /** Параметры конфигурации системы */
 export type ConfigexOptions = {
@@ -20,7 +21,7 @@ export type ConfigexOptions = {
   /** Секция Servers содержит описание серверов, входящих в действующую конфигурацию. */
   Servers?: any[],
   /** Секция Channels содержит описание настроек каналов действующей конфигурации. */
-  Channels?: any[]
+  Channels?: ChannelInfo[]
 }
 
 /** Конфигурация системы */
