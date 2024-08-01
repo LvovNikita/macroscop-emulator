@@ -1,10 +1,23 @@
-/** Информация о канале (камере) */
-class ChannelInfo {
+/**
+ * Камера (канал) Macroscop
+ */
+class MacroscopChannel {
   constructor(options) {
-    if (!options.Id) throw new Error('options must contain Id')
-    if (!options.Name) throw new Error('options must contain Name')
-    if (!options.AttachedToServer) throw new Error('options must contain AttachedToServer')
-    Object.assign(this, {
+    this.channelInfo = this.#prepareChannelInfo(options)
+  }
+
+  /**
+   * Подготовить информацию о канале для раздела Channels в configex
+   * @param {*} options Информация о канале
+   * @returns Объект ChannelInfo для configex.Channels
+   */
+  #prepareChannelInfo(options) {
+    const { Id, Name, AttachedToServer } = options
+
+    return {
+      Id,
+      Name,
+      AttachedToServer,
       DeviceInfo: 'RTSP/RTP device RTSP/RTP device',
       IsDisabled: false,
       IsSoundOn: false,
@@ -31,9 +44,8 @@ class ChannelInfo {
       IsPeopleCountingOn: false,
       IsObjectCountingOn: false,
       TimeZoneOffset: 0,
-      ...options
-    })
+    }
   }
 }
 
-module.exports = ChannelInfo
+module.exports = MacroscopChannel

@@ -1,69 +1,57 @@
 const express = require('express')
 
-const macroscopRouterFactory = require('./macroscop_router')
-const { createMacroscopServerMiddleware } = require('./middlewares')
-const ServerInfo = require('./server_info')
+const macroscopServerRouterFactory = require('./macroscop_server_router')
 
 /**
  * Эмуляция сервера Macroscop
  */
 class MacroscopServer {
-  /**
-   * Конструктор
-   * @param {*} options Параметры сервера
-   */
   constructor(options) {
-    this.options = options ?? {}
-    this.configex = {}
-    this.serverInfo = {}
-
-    this.setServerInfo(options)
-    this.setConfigex(options)
+    this.configex = null
+    this.serverInfo = this.#prepareServerInfo(options)
   }
 
   /**
    * Запустить сервер
+   * @param {*} Name Имя сервера
+   * @param {*} PrimaryIp IP-адрес сервера
+   * @param {*} PrimaryPort Порт сервера
    */
   run() {
     const httpServer = express()
-    if (!this.options.PrimaryPort) throw new Error('options must contain PrimaryPort')
-    if (!this.options.Name) throw new Error('options must contain Name')
-    if (!this.options.Id) throw new Error('options must contain Id')
-    if (!this.configex.Id) throw new Error('options must contain Id')
-    if (!this.configex.SenderId) throw new Error('options must contain SenderId')
-
-    const router = macroscopRouterFactory()
-    const addMacroscopServerInfoMiddleware = createMacroscopServerMiddleware(this)
-    httpServer.use(addMacroscopServerInfoMiddleware)
-    httpServer.use(router)
-    const onListen = () => {
-      console.log(`Server "${this.options.Name}" is running on port ${this.options.PrimaryPort}`)
-    }
-    httpServer.listen(this.options.PrimaryPort, onListen)
-  }
-
-  setConfigex(options) {
-    Object.assign(
-      this.configex,
-      {
-        Revision: 72,
-        Timestamp: '2023-06-07T06:30:15.3279409Z',
-        XmlProtocolVersion: 2,
-        ServerVersion: '4.1.23',
-        ProductType: 'Ultra',
-        Servers: [],
-        Channels: [],
-        ...(options?.configex ?? {})
-      }
-    )
-  }
-
-  setServerInfo(options) {
-    this.serverInfo = new ServerInfo({
-      Name: options.Name,
-      PrimaryPort: options.PrimaryPort,
-      Id: options.Id,
+    // Добавить информацию о сервере в объект request
+    httpServer.use((request, response, next) => {
+      request.macroscopServer = this
+      next()
     })
+    // Инициализация роутера
+    httpServer.use(macroscopServerRouterFactory())
+    // Запуск сервера Express
+    httpServer.listen(this.serverInfo.PrimaryPort, this.serverInfo.PrimaryIp, () => {
+      console.log(`Server "${this.serverInfo.Name}" is running on ${this.serverInfo.PrimaryIp}:${this.serverInfo.PrimaryPort}`)
+    })
+  }
+
+  /**
+   * Подготовить информацию о сервере для раздела Servers в configex
+   * @param {*} options Информация о сервере
+   * @returns Объект ServerInfo для configex.Servers
+   */
+  #prepareServerInfo(options) {
+    const { Id, Name, PrimaryIp, PrimaryPort } = options
+
+    return {
+      Id,
+      Name,
+      PrimaryIp,
+      PrimaryPort,
+      Url: `${PrimaryIp}:${PrimaryPort}`,
+      PrimarySslPort: '0',
+      SecondaryIp: '',
+      SecondaryPort: '0',
+      SecondarySslPort: '0',
+      ConnectionUrl: null,
+    }
   }
 }
 

@@ -1,7 +1,5 @@
-const ChannelInfo = require('./channel_info');
-
 module.exports = {
-  ChannelInfo: require('./channel_info'),
-  Configex: require('./configex'),
+  MacroscopServerGroup: require('./macroscop_server_group'),
   MacroscopServer: require('./macroscop_server'),
+  MacroscopChannel: require('./macroscop_channel')
 }
